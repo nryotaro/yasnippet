@@ -1,0 +1,57 @@
+# -*- mode: snippet -*-
+# name: optionalsnippet 
+# key: 
+# --
+"""Descrition."""
+import sys
+import dataclasses as d
+import functools
+import argparse as a
+
+
+@d.dataclass
+class Option:
+    """Command line option."""
+
+
+class Parser:
+    """Command line parser."""
+
+    @classmethod
+    def parse_args(self, args: list[str]):
+        """Parse command line arguments."""
+        parser = self.__build_parser()
+        if len(args) == 0:
+            parser.print_help()
+            sys.exit()
+        namespace = parser.parse_args(args)
+        parser.set_defaults(handler=lambda namespace: Option())
+        return namespace.handler(namespace)
+
+    @classmethod
+    def __build_parser(cls) -> a.ArgumentParser:
+        parser = a.ArgumentParser()
+        return parser
+
+
+def parse_args() -> a.Namespace:
+    """Interpret command line argments."""
+    parser = a.ArgumentParser()
+    return parser.parse_args()
+
+
+@functools.singledispatch
+def command(option):
+    """Run a command."""
+    raise RuntimeError("Unexpected options.", option)
+
+
+@command.register
+def command_option(option: Option):
+    """"""
+    raise NotImplementedError()
+
+
+if __name__ == "__main__":
+    option = Parser().parse_args(sys.argv[1:])
+    command(option)
