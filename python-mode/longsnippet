@@ -1,0 +1,49 @@
+# -*- mode: snippet -*-
+# name: longsnippet
+# key: longsnippet
+# --
+""""""
+import sys
+import argparse as a
+import functools
+import dataclasses as d
+
+
+class Parser:
+    """Command line parser."""
+
+    def parse_args(self, args: list[str]):
+        """Parse command line arguments."""
+        parser = self.build_parser()
+        if len(args) == 0:
+            parser.print_help()
+            sys.exit()
+            namespace = parser.parse_args(args)
+            return namespace.handler(namespace)
+
+        @classmethod
+        def build_parser(cls):
+            """Build the syntax."""
+            parser = a.ArgumentParser()
+            return parser
+
+
+@functools.singledispatch
+def command(options):
+    """Displatch."""
+    raise RuntimeError("Unexpected options.", options)
+
+
+@d.dataclass
+class Options:
+    """Options."""
+
+
+@command.register
+def command_options(options: Options):
+    """Options."""
+
+
+if __name__ == "__main__":
+    options = Parser().parse_args(sys.argv[1:])
+    command(options)
