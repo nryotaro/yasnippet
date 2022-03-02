@@ -30,7 +30,7 @@ class Parser:
 
 @functools.singledispatch
 def command(options):
-    """Displatch."""
+    """Dispatch."""
     raise RuntimeError("Unexpected options.", options)
 
 
