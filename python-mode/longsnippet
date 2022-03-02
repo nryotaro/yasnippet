@@ -21,11 +21,11 @@ class Parser:
             namespace = parser.parse_args(args)
             return namespace.handler(namespace)
 
-        @classmethod
-        def build_parser(cls):
-            """Build the syntax."""
-            parser = a.ArgumentParser()
-            return parser
+    @classmethod
+    def build_parser(cls):
+        """Build the syntax."""
+        parser = a.ArgumentParser()
+        return parser
 
 
 @functools.singledispatch
