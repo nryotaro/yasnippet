@@ -18,8 +18,8 @@ class Parser:
         if len(args) == 0:
             parser.print_help()
             sys.exit()
-            namespace = parser.parse_args(args)
-            return namespace.handler(namespace)
+        namespace = parser.parse_args(args)
+        return namespace.handler(namespace)
 
     @classmethod
     def build_parser(cls):
