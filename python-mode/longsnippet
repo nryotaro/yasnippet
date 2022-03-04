@@ -1,6 +1,7 @@
 # -*- mode: snippet -*-
 # name: longsnippet
 # key: longsnippet
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
 # --
 """"""
 import sys
@@ -46,4 +47,4 @@ def command_options(options: Options):
 
 if __name__ == "__main__":
     options = Parser().parse_args(sys.argv[1:])
-    command(options.handler(options))
+    command(options)
