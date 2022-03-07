@@ -20,7 +20,7 @@ class Parser:
 
     def parse_args(self, args: list[str]):
         """Parse command line arguments."""
-        parser = self.build_parser()
+        parser = self.__build_parser()
         if len(args) == 0:
             parser.print_help()
             sys.exit()
@@ -28,7 +28,7 @@ class Parser:
         return namespace.handler(namespace)
 
     @classmethod
-    def build_parser(cls):
+    def __build_parser(cls):
         """Build the syntax."""
         parser = a.ArgumentParser()
         return parser
