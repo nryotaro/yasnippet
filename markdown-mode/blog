@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: blog
+# key: blog
+# --
+---
+title: "抄訳 ()"
+date: 
+default: true
+---
+
+<!--more-->
+
+論文の[リンク]()
+
+## 雑記
