@@ -1,0 +1,31 @@
+# -*- mode: snippet -*-
+# name: union find
+# key: union_find
+# --
+class UnionFind {
+public:
+  vector<int> par;
+  UnionFind(int n) { par = vector<int>(n, -1); }
+
+  int find_root(int a) {
+    if (par[a] < 0)
+      return a;
+    return par[a] = find_root(par[a]);
+  }
+
+  int is_same_group(int a, int b) { return find_root(a) == find_root(b); }
+
+  void unite(int a, int b) {
+    if (is_same_group(a, b))
+      return;
+    int root_a = find_root(a), root_b = find_root(b);
+    if (group_size(root_a) > group_size(b)) {
+      par[root_a] += par[root_b];
+      par[root_b] = root_a;
+    } else {
+      par[root_b] += par[root_a];
+      par[root_a] = root_b;
+    }
+  }
+  int group_size(int a) { return -find_root(a); }
+};

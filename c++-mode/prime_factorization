@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: prime_factorization
+# key: prime_factorization
+# --
+map<ll, ll> prime_factorization(ll num) {
+  map<ll, ll> mp;
+  for (ll i = 2ll; i * i <= num; i++) {
+    while (num % i == 0) {
+      mp[i]++;
+      num /= i;
+    }
+  }
+  if (num != 1ll)
+    mp[num]++;
+  return mp;
+}
