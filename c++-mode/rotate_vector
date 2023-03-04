@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: rotate vector
+# key: rotate_vector
+# --
+/**
+ *  度数をラジアンに変換
+ * e.g, 60 degree to 1/2
+ */
+ld dtor(ld degree) { return degree * M_PI / 180.0; }
+
+/**
+ * 2次元ベクトルをdegree度回転させる
+ */
+pair<ld, ld> rotate_vector(ld x, ld y, ld degree) {
+  ld theta = dtor(degree);
+  return {cos(theta) * x - sin(theta) * y, sin(theta) * x + cos(theta) * y};
+}
