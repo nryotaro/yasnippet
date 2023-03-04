@@ -27,5 +27,5 @@ public:
       par[root_a] = root_b;
     }
   }
-  int group_size(int a) { return -find_root(a); }
+  int group_size(int a) { return -par[find_root(a)]; }  
 };
