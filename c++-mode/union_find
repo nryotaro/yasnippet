@@ -27,5 +27,13 @@ public:
       par[root_a] = root_b;
     }
   }
-  int group_size(int a) { return -par[find_root(a)]; }  
+  int group_size(int a) { return -par[find_root(a)]; }
+  /**
+   * グループの総数を返す。
+   */
+  int count_groups() {
+    unordered_set<int> groups;
+    rep(i, par.size()) { groups.insert(find_root(i)); }
+    return groups.size();
+  }  
 };
