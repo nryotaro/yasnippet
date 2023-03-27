@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: pow
+# key: pow
+# --
+ll mypow(ll x, ll n) {
+  ll res = 1ll;
+  while (n) {
+    if (n & 1)
+      res *= x;
+    n >>= 1;
+    x *= x;
+  }
+  return res;
+}
