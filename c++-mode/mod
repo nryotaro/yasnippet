@@ -1,0 +1,27 @@
+# -*- mode: snippet -*-
+# name: mod
+# key: mod
+# --
+template <ll N> class Mod {
+public:
+  Mod(ll v) : v(v) {}
+  ll get() { return v; }
+  Mod operator*(Mod &a) { return Mod<N>(v * a.v % N); }
+  Mod operator*(ll &b) { return Mod<N>(v * b % N); }
+  Mod &operator*=(const Mod &rhs) {
+    v *= rhs.v;
+    v %= N;
+    return *this;
+  }
+  Mod &operator=(const ll &number) {
+    v = number;
+    return this;
+  }
+  friend ostream &operator<<(ostream &os, Mod &mod) {
+    os << mod.v;
+    return os;
+  }
+
+private:
+  ll v;
+};
