@@ -2,7 +2,7 @@
 # name: pow
 # key: pow
 # --
-ll mypow(ll x, ll n) {
+ll my_pow(ll x, ll n) {
   ll res = 1ll;
   while (n) {
     if (n & 1)
