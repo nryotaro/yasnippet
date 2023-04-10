@@ -2,26 +2,55 @@
 # name: mod
 # key: mod
 # --
-template <ll N> class Mod {
+template <ll P> class Mod {
 public:
-  Mod(ll v) : v(v) {}
+  ll v;
+  Mod<P>() : v(0) {}
+  Mod<P>(ll v) : v(v % P) {}
   ll get() { return v; }
-  Mod operator*(Mod &a) { return Mod<N>(v * a.v % N); }
-  Mod operator*(ll &b) { return Mod<N>(v * b % N); }
-  Mod &operator*=(const Mod &rhs) {
+  Mod<P> operator*(Mod<P> &a) { return Mod<P>(v * a.v % P); }
+  Mod<P> operator*(ll &b) { return Mod<P>(v * b % P); }
+  friend Mod<P> operator+(const Mod<P> &lhs, const ll &rhs) {
+    return Mod(lhs.v + rhs % P);
+  }
+  friend Mod<P> operator-(const Mod<P> &lhs, const Mod<P> &rhs) {
+    ll res = lhs.v - rhs.v;
+    if (res < 0)
+      res += P;
+    return Mod<P>(res);
+  }
+  friend bool operator<(const Mod<P> &lhs, const int &rhs) {
+    return lhs.v < rhs;
+  }
+
+  Mod<P> &operator*=(const Mod &rhs) {
     v *= rhs.v;
-    v %= N;
+    v %= P;
     return *this;
   }
-  Mod &operator=(const ll &number) {
+  Mod<P> &operator+=(const Mod &rhs) {
+    v += rhs.v;
+    v %= P;
+    return *this;
+  }
+  Mod<P> &operator=(const ll &number) {
     v = number;
     return this;
   }
-  friend ostream &operator<<(ostream &os, Mod &mod) {
+  Mod<P> &operator++() {
+    v++;
+    v %= P;
+    return *this;
+  }
+  friend bool operator==(const Mod<P> &lhs, const int &rhs) {
+    return lhs.v == rhs;
+  }
+  friend ostream &operator<<(ostream &os, Mod<P> &mod) {
     os << mod.v;
     return os;
   }
-
-private:
-  ll v;
+  friend istream &operator>>(istream &is, Mod<P> &mod) {
+    is >> mod.v;
+    return is;
+  }
 };
