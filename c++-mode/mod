@@ -19,6 +19,9 @@ public:
       res += P;
     return Mod<P>(res);
   }
+  friend Mod<P> operator*(const Mod<P> &lhs, const Mod<P> &rhs) {
+    return Mod<P>(lhs.v * rhs.v % P);
+  }
   friend bool operator<(const Mod<P> &lhs, const int &rhs) {
     return lhs.v < rhs;
   }
@@ -31,6 +34,12 @@ public:
   Mod<P> &operator+=(const Mod &rhs) {
     v += rhs.v;
     v %= P;
+    return *this;
+  }
+  Mod<P> &operator-=(const Mod &rhs) {
+    v -= rhs.v;
+    if (v < 0)
+      v += P;
     return *this;
   }
   Mod<P> &operator=(const ll &number) {
@@ -52,5 +61,20 @@ public:
   friend istream &operator>>(istream &is, Mod<P> &mod) {
     is >> mod.v;
     return is;
+  }
+
+  Mod<P> pow(ll n) {
+    ll res = 1ll;
+    ll x = v;
+    while (n) {
+      if (n & 1) {
+        res *= x;
+        res %= P;
+      }
+      n >>= 1;
+      x *= x;
+      x %= P;
+    }
+    return res;
   }
 };
