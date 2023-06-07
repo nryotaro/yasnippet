@@ -11,7 +11,10 @@ public:
   Mod<P> operator*(Mod<P> &a) { return Mod<P>(v * a.v % P); }
   Mod<P> operator*(ll &b) { return Mod<P>(v * b % P); }
   friend Mod<P> operator+(const Mod<P> &lhs, const ll &rhs) {
-    return Mod(lhs.v + rhs % P);
+    return Mod((lhs.v + rhs) % P);
+  }
+  friend Mod<P> operator+(const Mod<P> &lhs, const Mod<P> &rhs) {
+    return Mod((lhs.v + rhs.v) % P);
   }
   friend Mod<P> operator-(const Mod<P> &lhs, const Mod<P> &rhs) {
     ll res = lhs.v - rhs.v;
