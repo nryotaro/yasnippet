@@ -4,10 +4,10 @@
 # --
 class Bit {
 public:
-  Bit(int n) {
-    bit.resize(n + 1);
-    fill(bit.begin(), bit.end(), 0);
-  }
+  /**
+   * [1,n)にある値をあつかえる。
+   */
+  Bit(int n) : bit(vector<int>(n + 1, 0)) {}
   /**
    *  sum of arr[0,to)
    */
