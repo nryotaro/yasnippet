@@ -67,11 +67,11 @@ public:
   friend bool operator==(const Mod<P> &lhs, const int &rhs) {
     return lhs.v == rhs;
   }
-  friend ostream &operator<<(ostream &os, Mod<P> &mod) {
+  friend ostream &operator<<(ostream &os, const Mod<P> &mod) {
     os << mod.v;
     return os;
   }
-  friend istream &operator>>(istream &is, Mod<P> &mod) {
+  friend istream &operator>>(istream &is,  Mod<P> &mod) {
     is >> mod.v;
     return is;
   }
