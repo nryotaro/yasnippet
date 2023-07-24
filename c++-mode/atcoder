@@ -50,8 +50,7 @@ template <typename Head, typename... Tail> void debug_(Head H, Tail... T) {
 #define debug(...)
 #endif
 
-// #ifdef ONLINE_JUDGE
 int main() {
   return 0;
 }
-// #endif
+
