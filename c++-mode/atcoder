@@ -1,8 +1,8 @@
-
 # -*- mode: snippet -*-
 # name: atcoder
 # key: atc
 # --
+#include <bits/stdc++.h>
 #include <bits/stdc++.h>
 using namespace std;
 using ll = long long;
@@ -16,13 +16,13 @@ using ull = unsigned long long;
 #else
 #define dbg(x)
 #endif
-template <typename Ostream, typename... Ts>
-Ostream &operator<<(Ostream &os, const pair<Ts...> &p) {
+template <typename Os, typename... Ts>
+Os &operator<<(Os &os, const pair<Ts...> &p) {
   return os << "{" << p.first << ", " << p.second << "}";
 }
-template <typename Ostream, typename Cont>
-typename enable_if<is_same<Ostream, ostream>::value, Ostream &>::type
-operator<<(Ostream &os, const Cont &v) {
+template <typename Os, typename T>
+typename enable_if<is_same<Os, ostream>::value, Os &>::type
+operator<<(Os &os, const T &v) {
   os << "[";
   string sep = "";
   for (auto &x : v) {
