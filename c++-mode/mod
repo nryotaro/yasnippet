@@ -26,13 +26,13 @@ public:
     return Mod<P>(lhs.v * rhs.v % P);
   }
   friend Mod<P> operator/(const Mod<P> &lhs, const Mod<P> &rhs) {
-    ll b = P, u = 1, v = 0, a = rhs.v;
+    ll b = P, u = 1, vv = 0, a = rhs.v;
     while (b) {
       ll t = a / b;
       a -= t * b;
       swap(a, b);
-      u -= t * v;
-      swap(u, v);
+      u -= t * vv;
+      swap(u, vv);
     }
     u %= P;
     if (u < 0)
@@ -71,7 +71,7 @@ public:
     os << mod.v;
     return os;
   }
-  friend istream &operator>>(istream &is,  Mod<P> &mod) {
+  friend istream &operator>>(istream &is, Mod<P> &mod) {
     is >> mod.v;
     return is;
   }
