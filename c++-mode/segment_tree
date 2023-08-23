@@ -1,0 +1,45 @@
+# -*- mode: snippet -*-
+# name: segment_tree
+# key: segment_tree
+# --
+class SegmentTree {
+public:
+  SegmentTree(int size, int invalid) {
+    int n = 1;
+    while (n < size)
+      n *= 2;
+    tree = vector<int>(n * 2 - 1, ninf = invalid);
+  }
+  /**
+   * k番目の値(0-indexed)をaに変更する
+   */
+  void update(int i, int v) {
+    i += offset();
+    tree[i] = v;
+    while (i > 0) {
+      i = (i - 1) / 2;
+      tree[i] = max(tree[2 * i + 1], tree[2 * i + 2]);
+    }
+  }
+
+  int query(int left, int right) {
+    return query(left, right, 0, 0, max_size());
+  }
+
+private:
+  /**葉以外のノード数 */
+  vector<int> tree;
+  int ninf;
+
+  int query(int q_l, int q_r, int root, int l, int r) {
+    if (r <= q_l || q_r <= l)
+      return ninf;
+    if (q_l <= l && r <= q_r)
+      return tree[root];
+    else
+      return max(query(q_l, q_r, root * 2 + 1, l, (l + r) / 2),
+                 query(q_l, q_r, root * 2 + 2, (l + r) / 2, r));
+  }
+  int offset() { return max_size() - 1; }
+  int max_size() { return (tree.size() + 1) / 2; }
+};
