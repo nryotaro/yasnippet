@@ -2,6 +2,54 @@
 # name: mod combination
 # key: mod
 # --
+template <ll P> class ModCombi {
+public:
+  /** [0, right)内のi, jについてiCjを計算できる。
+   */
+  ModCombi(int right) {
+    fact.resize(right);
+    inv_fact.resize(right);
+    for (ll i = 0; i < right; i++) {
+      if (i == 0) {
+        fact[0] = 1;
+        inv_fact[0] = modinv(1);
+      } else {
+        fact[i] = i * fact[i - 1] % P;
+        inv_fact[i] = modinv(i) * inv_fact[i - 1] % P;
+      }
+    }
+    dbg(fact);
+    dbg(inv_fact);
+  }
+  /**
+   * nCr
+   */
+  ll c(int n, int r) { return fact[n] * inv_fact[n - r] % P * inv_fact[r] % P; }
+
+private:
+  vector<ll> fact, inv_fact;
+
+private:
+  /** aの逆元を返す。
+   */
+  ll modinv(ll a) {
+    // mod + の前にa % modをするのは、とても小さい負の数が返されるため。
+    dbg(a, extgcd(a, P));
+    return (P + extgcd(a, P).first % P) % P;
+  }
+  /**
+   * ax + by = gcd(a, b)の x, yを求める。
+   * 拡張ユークリッドの互除法のx, yの候補はある。
+   * 実装の参照元は、プログラミングコンテストチャレンジブック第二版。
+   */
+  pair<ll, ll> extgcd(ll a, ll b) {
+    if (b == 0)
+      return {1, 0};
+    auto [x, y] = extgcd(b, a % b);
+    return {y, x - a / b * y};
+  }
+};
+
 /**
  *  https://drken1215.hatenablog.com/entry/2018/06/08/210000
  */
