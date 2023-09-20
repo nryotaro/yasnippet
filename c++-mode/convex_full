@@ -1,0 +1,45 @@
+# -*- mode: snippet -*-
+# name: 
+# key: 
+# --
+class ConvexFull {
+public:
+  vector<pair<ld, ld>> calc(vector<pair<ld, ld>> ps) {
+    sort(begin(ps), end(ps));
+    int n = ps.size();
+    vector<pair<ld, ld>> cf;
+    rep(i, n) {
+      while (cf.size() > 1 &&
+             cross(cf[cf.size() - 2], cf[cf.size() - 1], ps[i]))
+        cf.pop_back();
+      cf.push_back(ps[i]);
+    }
+    for (int i = n - 2, t = cf.size(); i >= 0; i--) {
+      while ((int)cf.size() > t &&
+             cross(cf[cf.size() - 2], cf[cf.size() - 1], ps[i]))
+        cf.pop_back();
+      cf.push_back(ps[i]);
+    }
+    return cf;
+  }
+
+  ld farthest_dist_pow(vector<pair<ld, ld>> &ps) {
+    vector<pair<ld, ld>> convex_full = calc(vector(ps));
+    ld res = 0;
+    for (int i = 0; i < (int)convex_full.size(); i++) {
+      for (int j = i + 1; j < (int)convex_full.size(); j++) {
+        ld x = (convex_full[i].first - convex_full[j].first);
+        ld y = (convex_full[i].second - convex_full[j].second);
+        res = max(res, x * x + y * y);
+      }
+    }
+    return res;
+  }
+
+private:
+  bool cross(pair<ld, ld> a, pair<ld, ld> b, pair<ld, ld> c) {
+    return (b.first - a.first) * (c.second - b.second) -
+               (c.first - b.first) * (b.second - a.second) <=
+           0;
+  }
+};
