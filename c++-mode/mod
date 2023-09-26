@@ -4,9 +4,8 @@
 # --
 template <ll P> class Mod {
 public:
-  ll v;
-  Mod<P>() : v(0) {}
-  Mod<P>(ll v) : v(v % P) {}
+  Mod() : v(0) {}
+  Mod(ll v_) : v((v_ % P + P) % P) {}
   ll get() { return v; }
   Mod<P> operator*(Mod<P> &a) { return Mod<P>(v * a.v % P); }
   Mod<P> operator*(ll &b) { return Mod<P>(v * b % P); }
@@ -90,4 +89,7 @@ public:
     }
     return res;
   }
+
+private:
+  ll v;
 };
