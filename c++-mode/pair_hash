@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: hash
+# key: hash
+# --
+template <typename S, typename T> class PairHash {
+public:
+  inline size_t operator()(const pair<S, T> &v) const {
+    return hash<S>{}(v.first) ^ (hash<T>{}(v.second) << 1);
+  }
+};
