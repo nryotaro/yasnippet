@@ -5,6 +5,9 @@
 class UnionFind {
 public:
   vector<int> par;
+  /**
+   *  グループの総数
+   */
   UnionFind(int n) { par = vector<int>(n, -1); }
 
   int find_root(int a) {
@@ -35,5 +38,5 @@ public:
     unordered_set<int> groups;
     rep(i, par.size()) { groups.insert(find_root(i)); }
     return groups.size();
-  }  
+  }
 };
