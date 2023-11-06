@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: LazySegmentTree
+# name: lazy_segment_tree
 # key: 
 # --
 class LstNode {
