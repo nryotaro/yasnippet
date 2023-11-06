@@ -1,0 +1,63 @@
+# -*- mode: snippet -*-
+# name: lazy_rmq
+# key: lazy_rmq
+# --
+class LazyRMQ {
+public:
+  LazyRMQ(int _size, ll _mx) : mx(_mx) {
+    int i = 1;
+    while (i < _size)
+      i *= 2;
+    tree.resize(i * 2 - 1);
+    fill(begin(tree), end(tree), 0);
+    lazy.resize(i * 2 - 1);
+    fill(begin(lazy), end(lazy), 0);
+  }
+
+  void add(int left, int right, ll v) { add(left, right, 0, 0, n_leaves(), v); }
+  ll query(int left, int right) { return query(left, right, 0, 0, n_leaves()); }
+
+private:
+  vector<ll> tree;
+  vector<ll> lazy;
+  ll mx;
+
+  void add(int left, int right, int root, int leaf_l, int leaf_r, int v) {
+    force(root, leaf_l, leaf_r);
+    if (leaf_r <= left || right <= leaf_l)
+      return;
+    if (left <= leaf_l && leaf_r <= right) {
+      lazy[root] += v;
+      // 以下でtree[root]を更新するから、addのパラメタrootの値は最新の値でなければならない。
+      force(root, leaf_l, leaf_r);
+      return;
+    }
+    add(left, right, root * 2 + 1, leaf_l, (leaf_l + leaf_r) / 2, v);
+    add(left, right, root * 2 + 2, (leaf_l + leaf_r) / 2, leaf_r, v);
+    tree[root] = min(tree[root * 2 + 1], tree[root * 2 + 2]);
+  }
+
+  ll query(int left, int right, int root, int leaf_l, int leaf_r) {
+    force(root, leaf_l, leaf_r);
+    if (leaf_r <= left || right <= leaf_l)
+      return mx;
+    if (left <= leaf_l && leaf_r <= right)
+      return tree[root];
+    ll min_l = query(left, right, root * 2 + 1, leaf_l, (leaf_l + leaf_r) / 2);
+    ll min_r = query(left, right, root * 2 + 2, (leaf_l + leaf_r) / 2, leaf_r);
+    return min(min_l, min_r);
+  }
+  int n_leaves() { return (tree.size() + 1) / 2; }
+
+  void force(int root, int left, int right) {
+    if (lazy[root] == 0)
+      return;
+
+    tree[root] += lazy[root];
+    if (right - left > 1) {
+      lazy[root * 2 + 1] += lazy[root];
+      lazy[root * 2 + 2] += lazy[root];
+    }
+    lazy[root] = 0;
+  }
+};
