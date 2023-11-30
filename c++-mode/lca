@@ -1,0 +1,74 @@
+# -*- mode: snippet -*-
+# name: 
+# key: 
+# --
+class LowestCommonAncestor {
+public:
+  LowestCommonAncestor(int root, vector<vector<int>> _tree) {
+    tree =_tree;
+    
+    depths.resize(n_nodes(), -1);
+    depths[root] = 0;
+    measure_depth(root);
+
+    ancestors.resize(n_nodes());
+    ancestors[root].push_back(root);
+    find_ancestors(root);
+  }
+
+  int find_lca(int u, int v) {
+    if (u == v)
+      return u;
+    if (depths[v] < depths[u])
+      swap(u, v);
+
+    if (depths[v] == depths[u]) {
+      int i = ancestors[v].size() - 1;
+      while (ancestors[v][i] == ancestors[u][i] && i > 1)
+        i--;
+      return find_lca(ancestors[u][i], ancestors[v][i]);
+    } else {
+      int i = 0;
+      while (i + 1 < (int)ancestors[v].size() &&
+             depths[u] < depths[ancestors[v][i + 1]])
+        i++;
+      if (i + 1 < (int)ancestors[v].size() &&
+          depths[ancestors[v][i + 1]] == depths[u])
+        return find_lca(u, ancestors[v][i + 1]);
+      else
+        return find_lca(u, ancestors[v][i]);
+    }
+  }
+
+private:
+  vector<vector<int>> tree;
+  vector<int> depths;
+  vector<vector<int>> ancestors;
+
+  void measure_depth(int node) {
+    for (auto neighbor : tree[node]) {
+      if (depths[neighbor] == -1) {
+        depths[neighbor] = depths[node] + 1;
+        measure_depth(neighbor);
+      }
+    }
+  }
+
+  int n_nodes() { return tree.size(); }
+
+  void find_ancestors(int node) {
+    for (auto neighbor : tree[node]) {
+      if (ancestors[neighbor].size() == 0) {
+        ancestors[neighbor].push_back(neighbor);
+        ancestors[neighbor].push_back(node);
+        while (ancestors[neighbor].size() - 1 <
+               ancestors[ancestors[neighbor].back()].size()) {
+          ancestors[neighbor].push_back(
+              ancestors[ancestors[neighbor].back()]
+                       [ancestors[neighbor].size() - 1]);
+        }
+        find_ancestors(neighbor);
+      }
+    }
+  }
+};
