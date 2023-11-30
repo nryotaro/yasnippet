@@ -1,18 +1,19 @@
+
 # -*- mode: snippet -*-
 # name: bit
 # key: bit
 # --
-class Bit {
+template <typename E> class Bit {
 public:
-  /**
-   * [1,n)にある値をあつかえる。
-   */
-  Bit(int n) : bit(vector<int>(n + 1, 0)) {}
+  Bit(int n) : bit(vector<E>(n + 1, 0)) {}
+
+  E get(int i) { return sum(i + 1) - sum(i); }
+
   /**
    *  sum of arr[0,to)
    */
-  int sum(int to) {
-    int res = 0;
+  E sum(int to) {
+    E res = 0;
     while (to) {
       res += bit[to];
       to -= to & -to;
@@ -22,9 +23,14 @@ public:
   /**
    * sum of arr[from,to)
    */
-  int sum_range(int from, int to) { return sum(to) - sum(from); }
+  E sum_range(int from, int to) { return sum(to) - sum(from); }
 
-  void add(int pos, int v) {
+  void update(int pos, E v) {
+    add(pos, -get(pos));
+    add(pos, v);
+  }
+
+  void add(int pos, E v) {
     pos++;
     while (pos < static_cast<int>(bit.size())) {
       bit[pos] += v;
@@ -33,5 +39,5 @@ public:
   }
 
 private:
-  vector<int> bit;
+  vector<E> bit;
 };
