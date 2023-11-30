@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: 
+# name:lca 
 # key: 
 # --
 class LowestCommonAncestor {
