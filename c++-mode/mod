@@ -21,6 +21,7 @@ public:
       res += P;
     return Mod<P>(res);
   }
+  Mod<P> operator-() { return (-v + P) % P; }
   friend Mod<P> operator*(const Mod<P> &lhs, const Mod<P> &rhs) {
     return Mod<P>(lhs.v * rhs.v % P);
   }
@@ -65,6 +66,9 @@ public:
   }
   friend bool operator==(const Mod<P> &lhs, const int &rhs) {
     return lhs.v == rhs;
+  }
+  friend bool operator==(const Mod<P> &lhs, const Mod<P> &rhs) {
+    return lhs.v == rhs.v;
   }
   friend ostream &operator<<(ostream &os, const Mod<P> &mod) {
     os << mod.v;
