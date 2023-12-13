@@ -1,0 +1,69 @@
+# -*- mode: snippet -*-
+# name: lazy_segtree
+# key: lazy
+# --
+template <typename S, typename F> class LazySegTree {
+public:
+  LazySegTree(int size, S _e, function<S(S, S)> _op, F _id,
+              function<S(F, S)> _map, function<F(F, F)> _combination)
+      : e(_e), op(_op), id(_id), map(_map), combination(_combination) {
+    int n_nodes = 1;
+    while (n_nodes < size)
+      n_nodes *= 2;
+    n_nodes = n_nodes * 2 - 1;
+    tree.resize(n_nodes, e);
+    lazy.resize(n_nodes, id);
+  }
+
+  void apply(int left, int right, F f) {
+    apply(left, right, f, 0, 0, (tree.size() + 1) / 2);
+  }
+
+  S get(int node) { return prod(node, node + 1, 0, 0, (tree.size() + 1) / 2); }
+
+private:
+  vector<S> tree;
+  S e;
+  function<S(S, S)> op;
+  F id;
+  function<S(F, S)> map;
+  vector<F> lazy;
+  function<F(F, F)> combination;
+
+  void apply(int left, int right, F f, int node, int leaf_l, int leaf_r) {
+    push_down(node);
+    if (leaf_r <= left || right <= leaf_l)
+      return;
+    if (left <= leaf_l && leaf_r <= right) {
+      lazy[node] = f;
+      push_down(node);
+      return;
+    }
+    int mid = (leaf_l + leaf_r) / 2;
+    apply(left, right, f, node * 2 + 1, leaf_l, mid);
+    apply(left, right, f, node * 2 + 2, mid, leaf_r);
+    tree[node] = op(tree[node * 2 + 1], tree[node * 2 + 2]);
+  }
+
+  S prod(int left, int right, int node, int leaf_l, int leaf_r) {
+    push_down(node);
+    if (leaf_r <= left || right <= leaf_l)
+      return e;
+    if (left <= leaf_l && leaf_r <= right) {
+      return tree[node];
+    }
+    int mid = (leaf_l + leaf_r) / 2;
+    S l = prod(left, right, node * 2 + 1, leaf_l, mid);
+    S r = prod(left, right, node * 2 + 2, mid, leaf_r);
+    return op(l, r);
+  }
+
+  void push_down(int node) {
+    tree[node] = map(lazy[node], tree[node]);
+    if (node < static_cast<int>(tree.size()) / 2) {
+      lazy[node * 2 + 1] = combination(lazy[node], lazy[node * 2 + 1]);
+      lazy[node * 2 + 2] = combination(lazy[node], lazy[node * 2 + 2]);
+    }
+    lazy[node] = id;
+  }
+};
