@@ -1,45 +1,44 @@
 # -*- mode: snippet -*-
-# name: segment_tree
-# key: segment_tree
+# name: segtree
+# key: segtree
 # --
-class SegmentTree {
+template <typename S> class SegTree {
 public:
-  SegmentTree(int size, int invalid) {
-    int n = 1;
-    while (n < size)
-      n *= 2;
-    tree = vector<int>(n * 2 - 1, ninf = invalid);
+  SegTree(int size, function<S(S, S)> _op, S _e) : op(_op), e(_e) {
+    int n_nodes = 1;
+    while (n_nodes < size)
+      n_nodes *= 2;
+    tree.resize(n_nodes * 2 - 1, e);
   }
-  /**
-   * k番目の値(0-indexed)をaに変更する
-   */
-  void update(int i, int v) {
-    i += offset();
-    tree[i] = v;
-    while (i > 0) {
-      i = (i - 1) / 2;
-      tree[i] = max(tree[2 * i + 1], tree[2 * i + 2]);
+
+  void set(int i, S v) {
+    int node = tree.size() / 2 + i;
+    tree[node] = v;
+    while (node > 0) {
+      node = (node - 1) / 2;
+      tree[node] = op(tree[node * 2 + 1], tree[node * 2 + 2]);
     }
   }
 
-  int query(int left, int right) {
-    return query(left, right, 0, 0, max_size());
+  S get(int i) { return prod(i, i + 1); }
+
+  S prod(int left, int right) {
+    return prod(left, right, 0, 0, (tree.size() + 1) / 2);
   }
 
 private:
-  /**葉以外のノード数 */
-  vector<int> tree;
-  int ninf;
+  function<S(S, S)> op;
+  vector<S> tree;
+  S e;
 
-  int query(int q_l, int q_r, int root, int l, int r) {
-    if (r <= q_l || q_r <= l)
-      return ninf;
-    if (q_l <= l && r <= q_r)
-      return tree[root];
-    else
-      return max(query(q_l, q_r, root * 2 + 1, l, (l + r) / 2),
-                 query(q_l, q_r, root * 2 + 2, (l + r) / 2, r));
+  S prod(int left, int right, int node, int leaf_l, int leaf_r) {
+    if (leaf_r <= left || right <= leaf_l)
+      return e;
+    if (left <= leaf_l && leaf_r <= right)
+      return tree[node];
+    int mid = (leaf_l + leaf_r) / 2;
+    S l = prod(left, right, node * 2 + 1, leaf_l, mid);
+    S r = prod(left, right, node * 2 + 2, mid, leaf_r);
+    return op(l, r);
   }
-  int offset() { return max_size() - 1; }
-  int max_size() { return (tree.size() + 1) / 2; }
 };
