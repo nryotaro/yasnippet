@@ -4,6 +4,10 @@
 # --
 template <typename S, typename F> class LazySegTree {
 public:
+  /** 遅延セグメント木
+   * Sはノードの型で、_eはノードの初期値。
+   * Fは遅延要素の型で、_idはデフォルトの値。
+   */
   LazySegTree(int size, S _e, function<S(S, S)> _op, F _id,
               function<S(F, S)> _map, function<F(F, F)> _combination)
       : e(_e), op(_op), id(_id), map(_map), combination(_combination) {
