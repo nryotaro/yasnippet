@@ -1,0 +1,22 @@
+# -*- mode: snippet -*-
+# name: ext_gcd
+# key: ext_gcd
+# --
+pair<ll, ll> ext_gcd(ll a, ll b) {
+  if (a < 0) {
+    auto [x, y] = ext_gcd(-a, b);
+    return {-x, y};
+  }
+  if (b < 0) {
+    auto [x, y] = ext_gcd(a, -b);
+    return {x, -y};
+  }
+  if (a < b) {
+    auto [x, y] = ext_gcd(b, a);
+    return {y, x};
+  }
+  if (b == 0)
+    return {1, 0};
+  auto [x, y] = ext_gcd(b, a % b);
+  return {y, x - a / b * y};
+}
