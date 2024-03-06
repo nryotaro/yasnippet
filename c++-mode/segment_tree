@@ -4,7 +4,7 @@
 # --
 template <typename S> class SegTree {
 public:
-  SegTree(int size, function<S(S, S)> _op, S _e) : op(_op), e(_e) {
+  SegTree(int size, function<S(S, S)> op, S e) : op(op), e(e) {
     int n_nodes = 1;
     while (n_nodes < size)
       n_nodes *= 2;
