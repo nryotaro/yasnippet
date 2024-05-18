@@ -1,0 +1,35 @@
+# -*- mode: snippet -*-
+# name: trie
+# key: trie
+# --
+class Trie {
+public:
+  void put(string &s) {
+
+    int cur = 0;
+    trie[0].first += 1;
+    for (auto c : s) {
+      if (!trie[cur].second.contains(c)) {
+        trie[cur].second[c] = trie.size();
+        trie.push_back({0, map<char, int>()});
+      }
+      cur = trie[cur].second[c];
+      trie[cur].first += 1;
+    }
+  }
+
+  ll count(string &s) {
+    ll res = 0;
+    auto cur = 0;
+    for (auto c : s) {
+      if (!trie[cur].second.contains(c))
+        break;
+      cur = trie[cur].second[c];
+      res += trie[cur].first;
+    }
+    return res;
+  }
+
+private:
+  vector<pair<ll, map<char, int>>> trie = {{0, map<char, int>()}};
+};
