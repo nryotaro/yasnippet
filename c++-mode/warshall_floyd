@@ -2,7 +2,7 @@
 # name: warshall floyd
 # key: warshall floyd
 # --
-void warshall_floyd(vector<vector<int>> &d) {
+void warshall_floyd(vector<vector<ll>> &d) {
   int n = d.size();
   rep(k, n) {
     rep(i, n) {
