@@ -25,6 +25,11 @@ public:
 
   S get(int node) { return prod(node, node + 1, 0, 0, (tree.size() + 1) / 2); }
 
+  S prod(int left, int right) {
+    assert(left < right);
+    return prod(left, right, 0, 0, (tree.size() + 1) / 2);
+  }
+
 private:
   vector<S> tree;
   S e;
